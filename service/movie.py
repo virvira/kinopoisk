@@ -1,4 +1,5 @@
 from dao.movie import MovieDAO
+from flask_paginate import Pagination, get_page_parameter
 
 
 class MovieService:
@@ -9,12 +10,8 @@ class MovieService:
         return self.dao.get_one(bid)
 
     def get_all(self, filters):
-        if filters.get("director_id") is not None:
-            movies = self.dao.get_by_director_id(filters.get("director_id"))
-        elif filters.get("genre_id") is not None:
-            movies = self.dao.get_by_genre_id(filters.get("genre_id"))
-        elif filters.get("year") is not None:
-            movies = self.dao.get_by_year(filters.get("year"))
+        if filters.get("status") is not None and filters.get("status") == "new":
+            movies = self.dao.get_ordered_by_status()
         else:
             movies = self.dao.get_all()
         return movies

@@ -10,13 +10,13 @@ genre_ns = Namespace('genres')
 
 @genre_ns.route('/')
 class GenresView(Resource):
-    @auth_required
+    # @auth_required
     def get(self):
         rs = genre_service.get_all()
         res = GenreSchema(many=True).dump(rs)
         return res, 200
 
-    @admin_required
+    # @admin_required
     def post(self):
         req_json = request.json
         genre = genre_service.create(req_json)
@@ -25,13 +25,13 @@ class GenresView(Resource):
 
 @genre_ns.route('/<int:gid>')
 class GenreView(Resource):
-    @auth_required
+    # @auth_required
     def get(self, gid):
         r = genre_service.get_one(gid)
         sm_d = GenreSchema().dump(r)
         return sm_d, 200
 
-    @admin_required
+    # @admin_required
     def put(self, gid):
         req_json = request.json
         if "id" not in req_json:
@@ -39,7 +39,7 @@ class GenreView(Resource):
         genre_service.update(req_json)
         return "", 204
 
-    @admin_required
+    # @admin_required
     def delete(self, did):
         genre_service.delete(did)
         return "", 204

@@ -21,9 +21,9 @@ class UserService:
         data["password"] = self.get_hash(data["password"])
         return self.dao.create(data)
 
-    def update(self, data):
-        self.dao.update(data)
-        return self.dao
+    # def update(self, data):
+    #     self.dao.update(data)
+    #     return self.dao
 
     def delete(self, uid):
         self.dao.delete(uid)
@@ -44,10 +44,10 @@ class UserService:
         day30 = datetime.datetime.utcnow() + datetime.timedelta(days=30)
         user_obj["exp"] = calendar.timegm(day30.timetuple())
         refresh_token = jwt.encode(user_obj, PWD_HASH_SALT)
-        return {"access_token": access_token, "refresh_token": refresh_token, "exp": user_obj["exp"]}
+        return {"access_token": access_token, "refresh_token": refresh_token}
 
-    def auth_user(self, username, password):
-        user = self.dao.get_by_username(username)
+    def auth_user(self, email, password):
+        user = self.dao.get_by_email(email)
         if not user:
             return None
 
@@ -57,8 +57,7 @@ class UserService:
             return None
 
         user_data = {
-            "username": user.username,
-            "role": user.role
+            "email": user.email
         }
         tokens = self.get_tokens(user_data)
 

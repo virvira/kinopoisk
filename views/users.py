@@ -15,14 +15,6 @@ class UsersView(Resource):
         res = UserSchema(many=True).dump(all_users)
         return res, 200
 
-    def post(self):
-        req_json = request.json
-        try:
-            user = user_service.create(req_json)
-            return "", 201, {"location": f"/users/{user.id}"}
-        except Exception as e:
-            return {"error": f"{e}"}, 400
-
 
 @user_ns.route('/<int:uid>')
 class UserView(Resource):
@@ -34,22 +26,22 @@ class UserView(Resource):
 
         return UserSchema().dump(user), 200
 
-    def put(self, uid):
-        req_json = request.json
-        req_json['id'] = uid
-        user_service.update(req_json)
-
-        required_fields = [
-                'username',
-                'password',
-                'role'
-            ]
-
-        for field in required_fields:
-            if field not in req_json:
-                return {"error": f"Поле {field} обязательно"}, 400
-
-        return "", 204
+    # def put(self, uid):
+    #     req_json = request.json
+    #     req_json['id'] = uid
+    #     user_service.update(req_json)
+    #
+    #     required_fields = [
+    #             'username',
+    #             'password',
+    #             'role'
+    #         ]
+    #
+    #     for field in required_fields:
+    #         if field not in req_json:
+    #             return {"error": f"Поле {field} обязательно"}, 400
+    #
+    #     return "", 204
 
     def delete(self, uid):
         user = user_service.get_one(uid)
