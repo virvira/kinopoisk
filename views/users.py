@@ -10,6 +10,7 @@ user_ns = Namespace('users')
 
 @user_ns.route('/')
 class UsersView(Resource):
+    @auth_required
     def get(self):
         all_users = user_service.get_all()
         res = UserSchema(many=True).dump(all_users)
@@ -18,6 +19,7 @@ class UsersView(Resource):
 
 @user_ns.route('/<int:uid>')
 class UserView(Resource):
+    @auth_required
     def get(self, uid):
         user = user_service.get_one(uid)
 
@@ -25,6 +27,15 @@ class UserView(Resource):
             return {"error": "User not found"}, 404
 
         return UserSchema().dump(user), 200
+
+    @auth_required
+    def patch(self, uid):
+        req_json = request.json
+        if "id" not in req_json:
+            req_json['id'] = uid
+        user_service.update(req_json)
+
+        return "", 204
 
     # def put(self, uid):
     #     req_json = request.json
@@ -47,8 +58,23 @@ class UserView(Resource):
         user = user_service.get_one(uid)
 
         if user is None:
-            return {"error": "User not found"}, 404
+            return {"error": "Пользователь не найден"}, 404
 
         user_service.delete_one(uid)
+
+        return "", 204
+
+
+@user_ns.route('/<int:uid>/password')
+class UserView(Resource):
+    @auth_required
+    def put(self, uid):
+        req_json = request.json
+        if "id" not in req_json:
+            req_json['id'] = uid
+        if "password_1" not in req_json or "password_2" not in req_json:
+            return {"error": "Поля password_1 и password_2 обязательны"}, 400
+
+        user_service.update_password(req_json)
 
         return "", 204

@@ -21,9 +21,18 @@ class UserService:
         data["password"] = self.get_hash(data["password"])
         return self.dao.create(data)
 
-    # def update(self, data):
-    #     self.dao.update(data)
-    #     return self.dao
+    def update(self, data):
+        self.dao.update(data)
+        return self.dao
+
+    def update_password(self, data):
+        old_password = self.get_hash(data.get("password_1"))
+        user = self.dao.get_one(data.get("id"))
+
+        # if user.password == old_password:
+        self.dao.update_password(data)
+
+        return self.dao
 
     def delete(self, uid):
         self.dao.delete(uid)

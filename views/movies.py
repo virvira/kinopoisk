@@ -2,8 +2,9 @@ from flask import request
 from flask_restx import Resource, Namespace
 
 from dao.model.movie import MovieSchema
-from decorators import auth_required, admin_required
+from decorators import auth_required
 from implemented import movie_service
+from constants import ITEMS_PER_PAGE
 
 movie_ns = Namespace('movies')
 
@@ -21,11 +22,10 @@ class MoviesView(Resource):
         res = MovieSchema(many=True).dump(all_movies)
         if page:
             page = int(page)-1
-            res = res[page*12:(page+1)*12]
+            res = res[page*ITEMS_PER_PAGE:(page+1)*ITEMS_PER_PAGE]
 
         return res, 200
 
-    # @admin_required
     def post(self):
         req_json = request.json
         movie = movie_service.create(req_json)
@@ -40,7 +40,6 @@ class MovieView(Resource):
         sm_d = MovieSchema().dump(b)
         return sm_d, 200
 
-    # @admin_required
     def put(self, bid):
         req_json = request.json
         if "id" not in req_json:
@@ -48,7 +47,6 @@ class MovieView(Resource):
         movie_service.update(req_json)
         return "", 204
 
-    # @admin_required
     def delete(self, bid):
         movie_service.delete(bid)
         return "", 204

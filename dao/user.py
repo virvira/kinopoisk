@@ -22,13 +22,21 @@ class UserDAO:
         return user
 
     def update(self, data):
-        user = self.get_one(data.get('uid'))
+        user = self.get_one(data.get('id'))
 
-        user.email = data.get('email')
-        user.password = data.get('password')
-        user.name = data.get('name')
-        user.surname = data.get('surname')
-        user.favourite_genre_id = data.get('favourite_genre_id')
+        if data.get('name') is not None:
+            user.name = data.get('name')
+        if data.get('surname') is not None:
+            user.surname = data.get('surname')
+        if data.get('favourite_genre_id') is not None:
+            user.favourite_genre_id = data.get('favourite_genre_id')
+
+        self.session.add(user)
+        self.session.commit()
+
+    def update_password(self, data):
+        user = self.get_one(data.get('id'))
+        user.password = data.get('password_2')
 
         self.session.add(user)
         self.session.commit()
