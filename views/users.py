@@ -37,23 +37,6 @@ class UserView(Resource):
 
         return "", 204
 
-    # def put(self, uid):
-    #     req_json = request.json
-    #     req_json['id'] = uid
-    #     user_service.update(req_json)
-    #
-    #     required_fields = [
-    #             'username',
-    #             'password',
-    #             'role'
-    #         ]
-    #
-    #     for field in required_fields:
-    #         if field not in req_json:
-    #             return {"error": f"Поле {field} обязательно"}, 400
-    #
-    #     return "", 204
-
     def delete(self, uid):
         user = user_service.get_one(uid)
 

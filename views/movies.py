@@ -2,7 +2,7 @@ from flask import request
 from flask_restx import Resource, Namespace
 
 from dao.model.movie import MovieSchema
-from decorators import auth_required
+# from decorators import auth_required
 from implemented import movie_service
 from constants import ITEMS_PER_PAGE
 
