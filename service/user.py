@@ -13,6 +13,9 @@ class UserService:
     def get_one(self, uid):
         return self.dao.get_one(uid)
 
+    def get_by_email(self, email):
+        return self.dao.get_by_email(email)
+
     def get_all(self):
         users = self.dao.get_all()
         return users
@@ -56,7 +59,7 @@ class UserService:
         return {"access_token": access_token, "refresh_token": refresh_token}
 
     def auth_user(self, email, password):
-        user = self.dao.get_by_email(email)
+        user = self.get_by_email(email)
         if not user:
             return None
 
@@ -79,3 +82,11 @@ class UserService:
             return None
 
         return self.get_tokens(user_data)
+
+    def get_user_email_from_header(self, header):
+        token = header.split('Bearer ')[-1]
+        user_data = jwt.decode(token, PWD_HASH_SALT, algorithms=['HS256'])
+
+        user_email = user_data.get('email')
+
+        return user_email
