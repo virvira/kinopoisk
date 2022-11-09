@@ -41,18 +41,8 @@ class UserView(Resource):
         user = user_service.get_by_email(user_email)
 
         if "id" not in req_json:
-            req_json['id'] = user.get('id')
+            req_json['id'] = user.id
         user_service.update(req_json)
-
-        return "", 204
-
-    def delete(self, uid):
-        user = user_service.get_one(uid)
-
-        if user is None:
-            return {"error": "Пользователь не найден"}, 404
-
-        user_service.delete_one(uid)
 
         return "", 204
 
@@ -60,7 +50,7 @@ class UserView(Resource):
 @user_ns.route('/password')
 class UserView(Resource):
     @auth_required
-    def put(self, uid):
+    def put(self):
         req_json = request.json
         req_header = request.headers['Authorization']
 
@@ -72,7 +62,7 @@ class UserView(Resource):
         user = user_service.get_by_email(user_email)
 
         if "id" not in req_json:
-            req_json['id'] = user.get('id')
+            req_json['id'] = user.id
         if "password_1" not in req_json or "password_2" not in req_json:
             return {"error": "Поля password_1 и password_2 обязательны"}, 400
 
