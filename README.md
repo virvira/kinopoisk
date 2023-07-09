@@ -1,5 +1,6 @@
 # Кинопоиск
 
-Стек технологий: Python, Flask, Postgres
+Сервис о кино.
 
-https://skyengpublic.notion.site/4-c5ca7b5763fb4524a95f1262115a12ea
+Стек технологий: Python 3.10, Flask 2.0.2, Sqlite3
+
