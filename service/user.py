@@ -21,7 +21,7 @@ class UserService:
         return users
 
     def create(self, data):
-        data["password"] = self.get_hash(data["password"])
+        data['password'] = self.get_hash(data['password'])
         return self.dao.create(data)
 
     def update(self, data):
@@ -29,8 +29,8 @@ class UserService:
         return self.dao
 
     def update_password(self, data):
-        old_password = self.get_hash(data.get("password_1"))
-        user = self.dao.get_one(data.get("id"))
+        old_password = self.get_hash(data.get('password_1'))
+        user = self.dao.get_one(data.get('id'))
 
         # if user.password == old_password:
         self.dao.update_password(data)
@@ -46,17 +46,17 @@ class UserService:
             password.encode('utf-8'),  # Convert the password to bytes
             PWD_HASH_SALT,
             PWD_HASH_ITERATIONS
-        ).decode("utf-8", "ignore")
+        ).decode('utf-8', 'ignore')
 
     def get_tokens(self, user_obj):
         min30 = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
-        user_obj["exp"] = calendar.timegm(min30.timetuple())
+        user_obj['exp'] = calendar.timegm(min30.timetuple())
         access_token = jwt.encode(user_obj, PWD_HASH_SALT)
 
         day30 = datetime.datetime.utcnow() + datetime.timedelta(days=30)
-        user_obj["exp"] = calendar.timegm(day30.timetuple())
+        user_obj['exp'] = calendar.timegm(day30.timetuple())
         refresh_token = jwt.encode(user_obj, PWD_HASH_SALT)
-        return {"access_token": access_token, "refresh_token": refresh_token}
+        return {'access_token': access_token, 'refresh_token': refresh_token}
 
     def auth_user(self, email, password):
         user = self.get_by_email(email)
@@ -69,7 +69,7 @@ class UserService:
         #     return None
 
         user_data = {
-            "email": user.email
+            'email': user.email
         }
         tokens = self.get_tokens(user_data)
 

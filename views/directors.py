@@ -19,7 +19,7 @@ class DirectorsView(Resource):
     def post(self):
         req_json = request.json
         director = director_service.create(req_json)
-        return "", 201, {"location": f"/directors/{director.id}"}
+        return '', 201, {'location': f'/directors/{director.id}'}
 
 
 @director_ns.route('/<int:did>')
@@ -32,11 +32,11 @@ class DirectorView(Resource):
 
     def put(self, did):
         req_json = request.json
-        if "id" not in req_json:
-            req_json["id"] = did
+        if 'id' not in req_json:
+            req_json['id'] = did
         director_service.update(req_json)
-        return "", 204
+        return '', 204
 
     def delete(self, did):
         director_service.delete(did)
-        return "", 204
+        return '', 204

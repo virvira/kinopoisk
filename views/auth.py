@@ -13,9 +13,9 @@ class AuthView(Resource):
         req_json = request.json
         try:
             user = user_service.create(req_json)
-            return "", 201, {"location": f"/users/{user.id}"}
+            return '', 201, {'location': f'/users/{user.id}'}
         except Exception as e:
-            return {"error": f"{e}"}, 400
+            return {'error': f'{e}'}, 400
 
 
 @auth_ns.route('/login')
@@ -30,20 +30,19 @@ class AuthView(Resource):
         tokens = user_service.auth_user(email, password)
 
         if tokens is None:
-            return {"error": "Неверные учётные данные"}, 401
+            return {'error': 'Неверные учётные данные'}, 401
 
         return tokens, 201
 
     def put(self):
         req_json = request.json
-        refresh_token = req_json.get("refresh_token")
+        refresh_token = req_json.get('refresh_token')
         if refresh_token is None:
             abort(400)
 
         tokens = user_service.check_refresh_token(refresh_token)
 
         if tokens is None:
-            return {"error": "Неверные учётные данные"}, 401
+            return {'error': 'Неверные учётные данные'}, 401
 
         return tokens, 201
-

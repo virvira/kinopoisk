@@ -9,8 +9,8 @@ class User(db.Model):
     password = db.Column(db.String)
     name = db.Column(db.String)
     surname = db.Column(db.String)
-    favourite_genre_id = db.Column(db.Integer, db.ForeignKey("genre.id"))
-    favourite_genre = db.relationship("Genre")
+    favourite_genre_id = db.Column(db.Integer, db.ForeignKey('genre.id'))
+    favourite_genre = db.relationship('Genre')
 
 
 class UserSchema(Schema):

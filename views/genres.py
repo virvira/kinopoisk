@@ -19,7 +19,7 @@ class GenresView(Resource):
     def post(self):
         req_json = request.json
         genre = genre_service.create(req_json)
-        return "", 201, {"location": f"/genres/{genre.id}"}
+        return '', 201, {'location': f'/genres/{genre.id}'}
 
 
 @genre_ns.route('/<int:gid>')
@@ -32,11 +32,11 @@ class GenreView(Resource):
 
     def put(self, gid):
         req_json = request.json
-        if "id" not in req_json:
-            req_json["id"] = gid
+        if 'id' not in req_json:
+            req_json['id'] = gid
         genre_service.update(req_json)
-        return "", 204
+        return '', 204
 
     def delete(self, did):
         genre_service.delete(did)
-        return "", 204
+        return '', 204

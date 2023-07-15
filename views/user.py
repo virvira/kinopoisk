@@ -24,7 +24,7 @@ class UserView(Resource):
         user = user_service.get_by_email(user_email)
 
         if user is None:
-            return {"error": "User not found"}, 404
+            return {'error': 'User not found'}, 404
 
         return UserSchema().dump(user), 200
 
@@ -40,11 +40,11 @@ class UserView(Resource):
 
         user = user_service.get_by_email(user_email)
 
-        if "id" not in req_json:
+        if 'id' not in req_json:
             req_json['id'] = user.id
         user_service.update(req_json)
 
-        return "", 204
+        return '', 204
 
 
 @user_ns.route('/password')
@@ -61,11 +61,11 @@ class UserView(Resource):
 
         user = user_service.get_by_email(user_email)
 
-        if "id" not in req_json:
+        if 'id' not in req_json:
             req_json['id'] = user.id
-        if "password_1" not in req_json or "password_2" not in req_json:
-            return {"error": "Поля password_1 и password_2 обязательны"}, 400
+        if 'password_1' not in req_json or 'password_2' not in req_json:
+            return {'error': 'Поля password_1 и password_2 обязательны'}, 400
 
         user_service.update_password(req_json)
 
-        return "", 204
+        return '', 204

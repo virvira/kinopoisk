@@ -10,7 +10,7 @@ class MovieService:
         return self.dao.get_one(bid)
 
     def get_all(self, filters):
-        if filters.get("status") is not None and filters.get("status") == "new":
+        if filters.get('status') is not None and filters.get('status') == 'new':
             movies = self.dao.get_ordered_by_status()
         else:
             movies = self.dao.get_all()

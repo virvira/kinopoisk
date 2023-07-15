@@ -23,8 +23,8 @@ class DirectorDAO:
         self.session.commit()
 
     def update(self, director_d):
-        director = self.get_one(director_d.get("id"))
-        director.name = director_d.get("name")
+        director = self.get_one(director_d.get('id'))
+        director.name = director_d.get('name')
 
         self.session.add(director)
         self.session.commit()

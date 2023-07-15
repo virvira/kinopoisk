@@ -23,8 +23,8 @@ class GenreDAO:
         self.session.commit()
 
     def update(self, genre_d):
-        genre = self.get_one(genre_d.get("id"))
-        genre.name = genre_d.get("name")
+        genre = self.get_one(genre_d.get('id'))
+        genre.name = genre_d.get('name')
 
         self.session.add(genre)
         self.session.commit()
